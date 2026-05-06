@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Database Management System</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body data-theme="dark">
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <i class="fa-solid fa-hospital"></i>
+            <span class="logo-text">H D M</span>
+        </div>
+        <ul class="nav-links">
+            <li class="active" onclick="switchTab('landing')"><i class="fa-solid fa-house"></i> <span>Home</span></li>
+            <li onclick="switchTab('patients')"><i class="fa-solid fa-bed-pulse"></i> <span>Patients</span></li>
+            <li onclick="switchTab('doctors')"><i class="fa-solid fa-user-doctor"></i> <span>Doctors</span></li>
+            <li onclick="switchTab('appointments')"><i class="fa-regular fa-calendar-check"></i>
+                <span>Appointments</span></li>
+            <li onclick="switchTab('billing')"><i class="fa-solid fa-file-invoice-dollar"></i> <span>Billing</span></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Navbar -->
+        <header class="top-nav">
+            <div class="nav-left">
+                <button id="sidebarToggle" class="icon-btn"><i class="fa-solid fa-bars"></i></button>
+                <div class="search-bar">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Search records...">
+                </div>
+            </div>
+            <div class="nav-right">
+                <button id="themeToggle" class="icon-btn"><i class="fa-solid fa-moon"></i></button>
+                <div class="profile-pic">
+                    <img src="https://i.pravatar.cc/150?img=32" alt="Admin">
+                </div>
+            </div>
+        </header>
+
+        <div class="content-wrapper">
+            <!-- Landing / Dashboard Section -->
+            <section id="landing" class="section active">
+                <div class="hero glass-panel">
+                    <h1>Hospital Database Management System</h1>
+                    <p>Modern, responsive, and secure healthcare administration.</p>
+                    <button class="btn-primary" onclick="switchTab('patients')">Manage Patients</button>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card glass-panel">
+                        <i class="fa-solid fa-users"></i>
+                        <h3>1,245</h3>
+                        <p>Total Patients</p>
+                    </div>
+                    <div class="feature-card glass-panel">
+                        <i class="fa-solid fa-stethoscope"></i>
+                        <h3>84</h3>
+                        <p>Available Doctors</p>
+                    </div>
+                    <div class="feature-card glass-panel">
+                        <i class="fa-solid fa-calendar-plus"></i>
+                        <h3>142</h3>
+                        <p>Appointments Today</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Patients Section -->
+            <section id="patients" class="section">
+                <div class="section-header">
+                    <h2>Patient Management</h2>
+                    <button class="btn-primary" onclick="openModal('patientModal')"><i class="fa-solid fa-plus"></i> Add
+                        Patient</button>
+                </div>
+                <div class="glass-panel table-container">
+                    <div class="table-controls">
+                        <input type="text" id="patientSearch" placeholder="Search patients by name..."
+                            onkeyup="filterPatients()">
+                    </div>
+                    <table id="patientTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Age</th>
+                                <th>Blood Group</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#P001</td>
+                                <td>Sarah Jenkins</td>
+                                <td>45</td>
+                                <td>O+</td>
+                                <td><span class="badge badge-admitted">Admitted</span></td>
+                                <td>
+                                    <button class="action-btn edit"><i class="fa-solid fa-pen"></i></button>
+                                    <button class="action-btn delete"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#P002</td>
+                                <td>Michael Chang</td>
+                                <td>32</td>
+                                <td>A-</td>
+                                <td><span class="badge badge-discharged">Discharged</span></td>
+                                <td>
+                                    <button class="action-btn edit"><i class="fa-solid fa-pen"></i></button>
+                                    <button class="action-btn delete"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Doctors Section -->
+            <section id="doctors" class="section">
+                <h2>Doctor Management</h2>
+                <div class="card-grid">
+                    <div class="doctor-card glass-panel">
+                        <img src="https://i.pravatar.cc/150?img=11" alt="Doctor">
+                        <h3>Dr. Emily Stone</h3>
+                        <p class="specialty">Cardiologist</p>
+                        <span class="badge badge-available">Available</span>
+                    </div>
+                    <div class="doctor-card glass-panel">
+                        <img src="https://i.pravatar.cc/150?img=13" alt="Doctor">
+                        <h3>Dr. Robert Vance</h3>
+                        <p class="specialty">Neurologist</p>
+                        <span class="badge badge-busy">In Surgery</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Appointments Section -->
+            <section id="appointments" class="section">
+                <div class="section-header">
+                    <h2>Appointments</h2>
+                    <button class="btn-primary">New Appointment</button>
+                </div>
+                <div class="appointment-list glass-panel">
+                    <div class="appointment-item">
+                        <div class="apt-info">
+                            <h4>Consultation - Sarah Jenkins</h4>
+                            <p>Dr. Emily Stone • 10:30 AM</p>
+                        </div>
+                        <span class="badge badge-pending">Upcoming</span>
+                    </div>
+                    <div class="appointment-item">
+                        <div class="apt-info">
+                            <h4>MRI Scan - John Doe</h4>
+                            <p>Dr. Robert Vance • 01:00 PM</p>
+                        </div>
+                        <span class="badge badge-pending">Upcoming</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Billing Section -->
+            <section id="billing" class="section">
+                <h2>Billing & Invoices</h2>
+                <div class="card-grid">
+                    <div class="invoice-card glass-panel">
+                        <div class="invoice-header">
+                            <h3>INV-2023-001</h3>
+                            <span class="badge badge-paid">Paid</span>
+                        </div>
+                        <p>Patient: Sarah Jenkins</p>
+                        <h2>$1,250.00</h2>
+                        <button class="btn-outline">View Details</button>
+                    </div>
+                    <div class="invoice-card glass-panel">
+                        <div class="invoice-header">
+                            <h3>INV-2023-002</h3>
+                            <span class="badge badge-pending">Pending</span>
+                        </div>
+                        <p>Patient: Michael Chang</p>
+                        <h2>$450.00</h2>
+                        <button class="btn-outline">Process Payment</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Footer -->
+        <!-- Footer Section -->
+        <footer class="glass-panel main-footer">
+            <div class="footer-container">
+                <!-- Brand Identity -->
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <i class="fa-solid fa-hospital"></i>
+                        <span>H D M</span>
+                    </div>
+                    <p>A comprehensive, high-performance database system designed for modern healthcare environments.
+                    </p>
+                    <div class="social-links">
+                        <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fa-brands fa-github"></i></a>
+                        <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    </div>
+                </div>
+
+                <!-- Navigation Links -->
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li onclick="switchTab('patients')">Patient Records</li>
+                        <li onclick="switchTab('doctors')">Medical Staff</li>
+                        <li onclick="switchTab('appointments')">Schedule</li>
+                        <li onclick="switchTab('billing')">Invoices</li>
+                    </ul>
+                </div>
+
+                <!-- Support -->
+                <div class="footer-links">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">System Status</a></li>
+                        <li><a href="#">Security Protocols</a></li>
+                        <li><a href="#">Documentation</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p><i class="fa-solid fa-envelope"></i> admin@HDM.io</p>
+                    <p><i class="fa-solid fa-phone"></i> +91 6767676767</p>
+                    <p><i class="fa-solid fa-location-dot"></i>H D M, random address, random pincode</p>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div class="footer-bottom">
+                <p>&copy; 2026 Hospital Management System. All rights reserved.</p>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Patient Modal -->
+    <div class="modal-overlay" id="patientModal">
+        <div class="modal glass-panel">
+            <div class="modal-header">
+                <h3>Add New Patient</h3>
+                <button class="close-btn" onclick="closeModal('patientModal')"><i
+                        class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form class="modal-form" onsubmit="event.preventDefault(); closeModal('patientModal');">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" placeholder="John Doe" required>
+                </div>
+                <div class="form-group">
+                    <label>Age</label>
+                    <input type="number" placeholder="30" required>
+                </div>
+                <div class="form-group">
+                    <label>Blood Group</label>
+                    <select>
+                        <option>A+</option>
+                        <option>O+</option>
+                        <option>B+</option>
+                        <option>AB-</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary full-width">Save Patient</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
